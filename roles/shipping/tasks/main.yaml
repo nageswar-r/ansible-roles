@@ -1,36 +1,19 @@
-- name: install maven and mysql
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    state: present
-  loop:
-  - maven
-  - mysql
-
 - name: app setup
   ansible.builtin.import_role:
     name: common
     tasks_from: app-setup.yaml
 
-- name: install dependencies
-  ansible.builtin.command: mvn clean package
-  args:
-    chdir: /app
+- name: java setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: java-setup.yaml
 
-- name: install dependencies
-  ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
-  args:
-    chdir: /app
+- name: systemd setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup.yaml
 
-- name: create systemctl service
-  ansible.builtin.template:
-    src: shipping.service.j2
-    dest: /etc/systemd/system/shipping.service
-
-- name: daemon reload
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-
-- name: install dependencie
+- name: install python dependencie
   ansible.builtin.pip:
     name: "{{ item }}"
     executable: pip3.9
