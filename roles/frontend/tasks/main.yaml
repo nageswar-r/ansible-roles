@@ -35,5 +35,5 @@
 - name: copy nginx.conf
   ansible.builtin.template:
     src: nginx.conf
-    dest: /etc/nginx/nginx.conf
+    dest: /etc/nginx/nginx.conf.j2
   notify: restart nginx
