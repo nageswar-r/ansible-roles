@@ -13,6 +13,7 @@
     state: restarted
     enabled: yes
     name: rabbitmq-server
+    
 - name: create rabbitmq user 
   community.rabbitmq.rabbitmq_user:
     user: roboshop
